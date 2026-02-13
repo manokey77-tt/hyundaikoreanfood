@@ -12,6 +12,38 @@
     <!-- 아이콘 사용을 위한 Font Awesome -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     
+    <script>
+        // --- 스마트 이미지 에러 핸들러 (미리 정의) ---
+        // 이미지가 로드되기 전에 이 함수가 준비되어 있어야 하므로 head 태그 내에 배치했습니다.
+        function handleImageError(image, fallbackUrl) {
+            // 무한 루프 방지
+            if (image.dataset.retryCount && parseInt(image.dataset.retryCount) > 2) {
+                image.src = fallbackUrl;
+                return;
+            }
+
+            // 재시도 횟수 초기화
+            if (!image.dataset.retryCount) {
+                image.dataset.retryCount = 0;
+            }
+            image.dataset.retryCount = parseInt(image.dataset.retryCount) + 1;
+
+            const currentSrc = image.src;
+            
+            // 1단계: .jpg 였다면 .png로 바꿔서 시도해본다.
+            if (currentSrc.includes('.jpg') || currentSrc.includes('.JPG')) {
+                const newSrc = currentSrc.replace(/.jpg/i, '.png');
+                console.log("Image load failed, trying PNG:", newSrc);
+                image.src = newSrc;
+            } 
+            // 2단계: .png 도 실패했다면 (혹은 이미 png였다면) -> 대체 이미지(Unsplash) 사용
+            else {
+                console.log("Image load failed, using fallback:", fallbackUrl);
+                image.src = fallbackUrl;
+            }
+        }
+    </script>
+
     <style>
         /* --- 기본 설정 --- */
         :root {
@@ -52,9 +84,8 @@
         .hero {
             position: relative;
             height: 400px;
-            /* 업로드해주신 main-banner.png 이미지를 적용했습니다. */
-            /* 주의: HTML 파일과 같은 폴더에 main-banner.png 파일이 있어야 합니다. */
-            background-image: linear-gradient(rgba(0,0,0,0.3), rgba(0,0,0,0.6)), url('main-banner.png');
+            /* 초기 설정: 로컬 파일(main-banner.png) 사용 시도 */
+            background-image: linear-gradient(rgba(0,0,0,0.3), rgba(0,0,0,0.6)), url('./main-banner.png');
             background-size: cover;
             background-position: center;
             display: flex;
@@ -64,6 +95,7 @@
             text-align: center;
             color: white;
             padding: 20px;
+            transition: background-image 0.3s ease-in;
         }
 
         .badge {
@@ -71,8 +103,8 @@
             color: white;
             padding: 8px 15px;
             border-radius: 50px;
-            font-family: 'Noto Sans KR', sans-serif; /* 폰트 변경 */
-            font-weight: 700; /* 굵기 추가 */
+            font-family: 'Noto Sans KR', sans-serif;
+            font-weight: 700;
             font-size: 1.1rem;
             margin-bottom: 15px;
             animation: bounce 2s infinite;
@@ -83,9 +115,9 @@
         }
 
         .hero h1 {
-            font-family: 'Noto Sans KR', sans-serif; /* 폰트 변경 */
-            font-weight: 900; /* 매우 굵게 */
-            font-size: 2.2rem; /* 사이즈 약간 키움 */
+            font-family: 'Noto Sans KR', sans-serif;
+            font-weight: 900;
+            font-size: 2.2rem;
             line-height: 1.3;
             margin-bottom: 10px;
             text-shadow: 2px 2px 4px rgba(0,0,0,0.5);
@@ -120,7 +152,7 @@
         }
 
         .intro h2 {
-            font-family: 'Noto Sans KR', sans-serif; /* 폰트 변경 */
+            font-family: 'Noto Sans KR', sans-serif;
             font-weight: 700;
             font-size: 1.5rem;
             color: var(--primary-orange);
@@ -160,7 +192,7 @@
         }
 
         .card-title {
-            font-family: 'Noto Sans KR', sans-serif; /* 폰트 변경 */
+            font-family: 'Noto Sans KR', sans-serif;
             font-weight: 700;
             font-size: 1.3rem;
             margin-bottom: 10px;
@@ -175,58 +207,16 @@
 
         .highlight-money {
             color: var(--accent-red);
-            font-family: 'Noto Sans KR', sans-serif; /* 폰트 변경 */
+            font-family: 'Noto Sans KR', sans-serif;
             font-weight: 900;
             font-size: 1.8rem;
             display: block;
             margin: 10px 0;
-            letter-spacing: -0.5px; /* 자간 조절로 세련미 추가 */
+            letter-spacing: -0.5px;
         }
 
         .highlight-text {
             background: linear-gradient(to top, #ffeebb 50%, transparent 50%);
-        }
-
-        /* --- 소셜 프루프 (리뷰) --- */
-        /* 섹션 삭제로 인해 관련 스타일은 유지하되 HTML에서 제거됨 */
-        .social-proof {
-            padding: 20px;
-            text-align: center;
-            background-color: #fff;
-            margin: 20px 0;
-        }
-        
-        .social-title {
-            font-family: 'Noto Sans KR', sans-serif; /* 폰트 변경 */
-            font-weight: 700;
-            margin-bottom: 15px;
-            color: var(--text-dark);
-        }
-
-        .review-scroller {
-            display: flex;
-            overflow-x: auto;
-            gap: 10px;
-            padding-bottom: 10px;
-            scrollbar-width: none; /* Firefox */
-        }
-        
-        .review-scroller::-webkit-scrollbar {
-            display: none; /* Chrome, Safari */
-        }
-
-        .review-item {
-            min-width: 150px;
-            height: 150px;
-            background-color: #eee;
-            border-radius: 10px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 0.8rem;
-            color: #888;
-            background-image: url('https://via.placeholder.com/150x150/FF8C00/ffffff?text=고객인증샷');
-            background-size: cover;
         }
 
         /* --- CTA 섹션 --- */
@@ -253,7 +243,7 @@
             width: 100%;
             background-color: var(--lg-magenta);
             color: white;
-            font-family: 'Noto Sans KR', sans-serif; /* 폰트 변경 */
+            font-family: 'Noto Sans KR', sans-serif;
             font-weight: 700;
             font-size: 1.5rem;
             padding: 18px;
@@ -363,17 +353,17 @@
             display: flex;
             justify-content: space-between;
             align-items: center;
-            margin: 20px auto; /* 중앙 정렬로 수정 */
+            margin: 20px auto;
             padding: 0 10px;
             position: relative;
-            width: 100%; /* 전체 너비 */
-            max-width: 320px; /* 너무 퍼지지 않게 제한 */
+            width: 100%;
+            max-width: 320px;
         }
 
         .map-line {
             position: absolute;
             top: 50%;
-            left: 20px; /* 양옆 여백 조정 */
+            left: 20px;
             right: 20px;
             height: 2px;
             background: #666;
@@ -432,7 +422,7 @@
 
         /* --- 모달 (상담신청 폼) 스타일 --- */
         .modal-overlay {
-            display: none; /* 기본적으로 숨김 */
+            display: none;
             position: fixed;
             top: 0;
             left: 0;
@@ -481,7 +471,6 @@
             border: none;
         }
 
-        /* 폼 요소 스타일 */
         .form-group {
             margin-bottom: 15px;
         }
@@ -584,8 +573,11 @@
     <section class="benefits">
         <!-- 카드 1 (메인) -->
         <div class="card main-benefit">
-            <!-- 업로드된 유심 혜택 이미지 적용 -->
-            <img src="usim-benefit.jpg" alt="유심 변경 혜택" style="width: 100%; border-radius: 15px; margin-bottom: 20px; box-shadow: 0 4px 10px rgba(0,0,0,0.1);">
+            <!-- onerror에 스마트 핸들러 함수 적용: JPG 실패시 PNG 시도, 그 후 대체 이미지 -->
+            <img src="./usim-benefit.jpg" 
+                 onerror="handleImageError(this, 'https://images.unsplash.com/photo-1512428559087-560fa0db7901?q=80&w=1000&auto=format&fit=crop')" 
+                 alt="유심 변경 혜택" 
+                 style="width: 100%; border-radius: 15px; margin-bottom: 20px; box-shadow: 0 4px 10px rgba(0,0,0,0.1);">
             
             <div class="card-icon"><i class="fa-solid fa-sim-card"></i></div>
             <h3 class="card-title">기기 그대로 유심만 쏙!</h3>
@@ -595,8 +587,11 @@
 
         <!-- 카드 2 (직장인) -->
         <div class="card">
-            <!-- 업로드된 직장인 혜택 이미지 적용 -->
-            <img src="worker-benefit.jpg" alt="직장인 혜택 상담" style="width: 100%; border-radius: 15px; margin-bottom: 20px; box-shadow: 0 4px 10px rgba(0,0,0,0.1);">
+            <!-- onerror에 스마트 핸들러 함수 적용 -->
+            <img src="./worker-benefit.jpg" 
+                 onerror="handleImageError(this, 'https://images.unsplash.com/photo-1522071820081-009f0129c71c?q=80&w=1000&auto=format&fit=crop')" 
+                 alt="직장인 혜택 상담" 
+                 style="width: 100%; border-radius: 15px; margin-bottom: 20px; box-shadow: 0 4px 10px rgba(0,0,0,0.1);">
 
             <div class="card-icon"><i class="fa-solid fa-briefcase" style="color:var(--lg-magenta)"></i></div>
             <h3 class="card-title">직장인 / 공무원 특별 우대</h3>
@@ -606,8 +601,11 @@
 
         <!-- 카드 3 (가족) -->
         <div class="card">
-            <!-- 업로드된 가족 혜택 이미지 적용 -->
-            <img src="family-benefit.jpg" alt="가족 결합 혜택" style="width: 100%; border-radius: 15px; margin-bottom: 20px; box-shadow: 0 4px 10px rgba(0,0,0,0.1);">
+            <!-- onerror에 스마트 핸들러 함수 적용 -->
+            <img src="./family-benefit.jpg" 
+                 onerror="handleImageError(this, 'https://images.unsplash.com/photo-1542037104857-ffbb0b9155fb?q=80&w=1000&auto=format&fit=crop')" 
+                 alt="가족 결합 혜택" 
+                 style="width: 100%; border-radius: 15px; margin-bottom: 20px; box-shadow: 0 4px 10px rgba(0,0,0,0.1);">
             
             <div class="card-icon"><i class="fa-solid fa-users" style="color:#4CAF50"></i></div>
             <h3 class="card-title">뭉치면 더 커지는 혜택</h3>
@@ -616,13 +614,10 @@
         </div>
     </section>
 
-    <!-- 소셜 프루프 섹션 삭제됨 -->
-
     <!-- CTA 액션 -->
     <section class="cta-section">
         <span class="urgency-badge">🔥 선착순 마감 임박</span>
         
-        <!-- 기존 a 태그를 button으로 변경하여 모달 오픈 -->
         <button onclick="openModal()" class="cta-button" style="border:none; cursor:pointer;">
             문자로 상담 신청하기 <i class="fa-solid fa-paper-plane"></i>
         </button>
@@ -636,7 +631,7 @@
         </div>
     </section>
 
-    <!-- 네이버 스마트플레이스 예약 섹션 (추가됨) -->
+    <!-- 네이버 스마트플레이스 예약 섹션 -->
     <section class="naver-section">
         <div class="naver-container">
             <h3 class="naver-title">⏳ 기다림 없이 바로 상담받으세요!</h3>
@@ -692,19 +687,16 @@
             </div>
 
             <form id="consultForm" onsubmit="submitForm(event)">
-                <!-- 1. 성명 -->
                 <div class="form-group">
                     <label class="form-label">성명</label>
                     <input type="text" id="userName" class="form-input" placeholder="이름을 입력해주세요" required>
                 </div>
 
-                <!-- 2. 연락처 -->
                 <div class="form-group">
                     <label class="form-label">연락처</label>
                     <input type="tel" id="userPhone" class="form-input" placeholder="010-0000-0000" required>
                 </div>
 
-                <!-- 3. 통신사 선택 -->
                 <div class="form-group">
                     <label class="form-label">현재 이용중인 통신사</label>
                     <select id="userCarrier" class="form-select">
@@ -716,7 +708,6 @@
                     </select>
                 </div>
 
-                <!-- 4. 상담 방식 -->
                 <div class="form-group">
                     <label class="form-label">희망 상담 방식</label>
                     <div class="radio-group">
@@ -726,7 +717,6 @@
                     </div>
                 </div>
 
-                <!-- 5. 추가 문의 -->
                 <div class="form-group">
                     <label class="form-label">추가 문의사항 (선택)</label>
                     <textarea id="userMessage" class="form-textarea" rows="3" placeholder="궁금하신 점을 적어주세요"></textarea>
@@ -740,20 +730,36 @@
 </div>
 
 <script>
+    // --- 헤로 이미지(배경) 체크 ---
+    window.onload = function() {
+        console.log("Page Loaded - Checking Hero Image");
+        const hero = document.querySelector('.hero');
+        const img = new Image();
+        const mainBannerPath = './main-banner.png'; // 기본은 png로 가정
+        
+        img.onload = function() {
+            // main-banner.png가 존재함
+            console.log("Main banner found!");
+        };
+        img.onerror = function() {
+            // main-banner.png가 없음 -> 대체 이미지 사용
+            console.log("Main banner not found, using fallback");
+            hero.style.backgroundImage = "linear-gradient(rgba(0,0,0,0.3), rgba(0,0,0,0.6)), url('https://images.unsplash.com/photo-1583224954934-2e5520d2b70f?q=80&w=1000&auto=format&fit=crop')";
+        };
+        img.src = mainBannerPath;
+    };
+
     // 모달 제어 함수
     function openModal() {
         document.getElementById('consultModal').style.display = 'flex';
-        // 모달 열릴 때 body 스크롤 방지
         document.body.style.overflow = 'hidden';
     }
 
     function closeModal() {
         document.getElementById('consultModal').style.display = 'none';
-        // 스크롤 복구
         document.body.style.overflow = 'auto';
     }
 
-    // 모달 배경 클릭 시 닫기
     window.onclick = function(event) {
         const modal = document.getElementById('consultModal');
         if (event.target == modal) {
@@ -761,15 +767,11 @@
         }
     }
 
-    // 폼 제출 및 문자 앱 연결
     function submitForm(event) {
-        event.preventDefault(); // 기본 제출 동작 방지
-
-        // 입력값 가져오기
+        event.preventDefault();
         const name = document.getElementById('userName').value;
         const phone = document.getElementById('userPhone').value;
         const carrier = document.getElementById('userCarrier').value;
-        // 라디오 버튼 값 가져오기
         const methods = document.getElementsByName('consultMethod');
         let selectedMethod = '문자';
         for(const method of methods) {
@@ -780,7 +782,6 @@
         }
         const message = document.getElementById('userMessage').value;
 
-        // 문자 본문 구성
         const smsBody = `[현대식당 이벤트 상담신청]
 성명: ${name}
 연락처: ${phone}
@@ -788,22 +789,10 @@
 상담방식: ${selectedMethod}
 문의: ${message}`;
 
-        // 안내 메시지
         alert('문자 앱으로 연결됩니다.\n화면 상단의 [전송] 버튼을 꼭 눌러주세요!');
-
-        // 문자 앱 실행 (URL Scheme)
-        // 설정된 전화번호: 010-8111-1203
-        // 아이폰/안드로이드 호환성을 위해 ?body= 사용
         location.href = `sms:010-8111-1203?body=${encodeURIComponent(smsBody)}`;
-        
-        // 모달 닫기
         closeModal();
     }
-    
-    // 페이지 로드 시 효과
-    document.addEventListener('DOMContentLoaded', () => {
-        console.log("LG U+ x Hyundai Buffet Event Page Loaded");
-    });
 </script>
 
 </body>
