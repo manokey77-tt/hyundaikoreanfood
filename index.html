@@ -1,0 +1,810 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>현대 한식 뷔페 X LG유플러스 특별 이벤트</title>
+    <!-- 구글 폰트: 친근하고 가독성 좋은 폰트 로드 -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <!-- Jua 폰트를 제거하고, 세련된 Noto Sans KR 추가 -->
+    <link href="https://fonts.googleapis.com/css2?family=Gowun+Dodum&family=Noto+Sans+KR:wght@500;700;900&display=swap" rel="stylesheet">
+    <!-- 아이콘 사용을 위한 Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <style>
+        /* --- 기본 설정 --- */
+        :root {
+            --primary-orange: #FF8C00;
+            --primary-yellow: #FFD700;
+            --lg-magenta: #E6007E;
+            --text-dark: #333333;
+            --text-gray: #666666;
+            --accent-red: #FF0000;
+            --bg-color: #FFFAF0; /* 아주 연한 살구색 */
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            font-family: 'Gowun Dodum', sans-serif;
+            background-color: #f0f0f0;
+            color: var(--text-dark);
+            line-height: 1.6;
+        }
+
+        /* 모바일 최적화 컨테이너 */
+        .container {
+            max-width: 480px;
+            margin: 0 auto;
+            background-color: var(--bg-color);
+            box-shadow: 0 0 20px rgba(0,0,0,0.1);
+            min-height: 100vh;
+            position: relative;
+            overflow-x: hidden;
+        }
+
+        /* --- 헤로 섹션 (Hero) --- */
+        .hero {
+            position: relative;
+            height: 400px;
+            /* 업로드해주신 main-banner.png 이미지를 적용했습니다. */
+            /* 주의: HTML 파일과 같은 폴더에 main-banner.png 파일이 있어야 합니다. */
+            background-image: linear-gradient(rgba(0,0,0,0.3), rgba(0,0,0,0.6)), url('main-banner.png');
+            background-size: cover;
+            background-position: center;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+            color: white;
+            padding: 20px;
+        }
+
+        .badge {
+            background-color: var(--lg-magenta);
+            color: white;
+            padding: 8px 15px;
+            border-radius: 50px;
+            font-family: 'Noto Sans KR', sans-serif; /* 폰트 변경 */
+            font-weight: 700; /* 굵기 추가 */
+            font-size: 1.1rem;
+            margin-bottom: 15px;
+            animation: bounce 2s infinite;
+            box-shadow: 0 4px 10px rgba(230, 0, 126, 0.4);
+            display: inline-flex;
+            align-items: center;
+            gap: 5px;
+        }
+
+        .hero h1 {
+            font-family: 'Noto Sans KR', sans-serif; /* 폰트 변경 */
+            font-weight: 900; /* 매우 굵게 */
+            font-size: 2.2rem; /* 사이즈 약간 키움 */
+            line-height: 1.3;
+            margin-bottom: 10px;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.5);
+        }
+
+        .hero p {
+            font-size: 1.1rem;
+            opacity: 0.9;
+        }
+
+        /* --- 오디오 플레이어 (시각적) --- */
+        .audio-bubble {
+            background: rgba(255,255,255,0.9);
+            color: var(--text-dark);
+            padding: 10px 15px;
+            border-radius: 20px;
+            margin-top: 20px;
+            font-size: 0.9rem;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            cursor: pointer;
+        }
+
+        /* --- 도입부 (Hook) --- */
+        .intro {
+            padding: 30px 20px;
+            text-align: center;
+            background: white;
+            border-bottom-left-radius: 30px;
+            border-bottom-right-radius: 30px;
+        }
+
+        .intro h2 {
+            font-family: 'Noto Sans KR', sans-serif; /* 폰트 변경 */
+            font-weight: 700;
+            font-size: 1.5rem;
+            color: var(--primary-orange);
+            margin-bottom: 10px;
+        }
+
+        /* --- 혜택 카드 섹션 --- */
+        .benefits {
+            padding: 30px 20px;
+        }
+
+        .card {
+            background: white;
+            border-radius: 20px;
+            padding: 25px 20px;
+            margin-bottom: 20px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.05);
+            border: 1px solid #eee;
+            position: relative;
+            overflow: hidden;
+            transition: transform 0.2s;
+        }
+
+        .card:hover {
+            transform: translateY(-5px);
+        }
+
+        .card.main-benefit {
+            border: 2px solid var(--primary-orange);
+            background: linear-gradient(to bottom, #fff, #fffaf0);
+        }
+
+        .card-icon {
+            font-size: 2.5rem;
+            margin-bottom: 15px;
+            color: var(--primary-orange);
+        }
+
+        .card-title {
+            font-family: 'Noto Sans KR', sans-serif; /* 폰트 변경 */
+            font-weight: 700;
+            font-size: 1.3rem;
+            margin-bottom: 10px;
+            color: var(--text-dark);
+        }
+
+        .card-text {
+            font-size: 1rem;
+            color: var(--text-gray);
+            margin-bottom: 10px;
+        }
+
+        .highlight-money {
+            color: var(--accent-red);
+            font-family: 'Noto Sans KR', sans-serif; /* 폰트 변경 */
+            font-weight: 900;
+            font-size: 1.8rem;
+            display: block;
+            margin: 10px 0;
+            letter-spacing: -0.5px; /* 자간 조절로 세련미 추가 */
+        }
+
+        .highlight-text {
+            background: linear-gradient(to top, #ffeebb 50%, transparent 50%);
+        }
+
+        /* --- 소셜 프루프 (리뷰) --- */
+        /* 섹션 삭제로 인해 관련 스타일은 유지하되 HTML에서 제거됨 */
+        .social-proof {
+            padding: 20px;
+            text-align: center;
+            background-color: #fff;
+            margin: 20px 0;
+        }
+        
+        .social-title {
+            font-family: 'Noto Sans KR', sans-serif; /* 폰트 변경 */
+            font-weight: 700;
+            margin-bottom: 15px;
+            color: var(--text-dark);
+        }
+
+        .review-scroller {
+            display: flex;
+            overflow-x: auto;
+            gap: 10px;
+            padding-bottom: 10px;
+            scrollbar-width: none; /* Firefox */
+        }
+        
+        .review-scroller::-webkit-scrollbar {
+            display: none; /* Chrome, Safari */
+        }
+
+        .review-item {
+            min-width: 150px;
+            height: 150px;
+            background-color: #eee;
+            border-radius: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 0.8rem;
+            color: #888;
+            background-image: url('https://via.placeholder.com/150x150/FF8C00/ffffff?text=고객인증샷');
+            background-size: cover;
+        }
+
+        /* --- CTA 섹션 --- */
+        .cta-section {
+            padding: 30px 20px;
+            text-align: center;
+            background: linear-gradient(135deg, #fff 0%, #fff0f5 100%);
+        }
+
+        .urgency-badge {
+            background-color: var(--accent-red);
+            color: white;
+            padding: 5px 10px;
+            border-radius: 4px;
+            font-size: 0.8rem;
+            font-weight: bold;
+            display: inline-block;
+            margin-bottom: 10px;
+            animation: pulse 1.5s infinite;
+        }
+
+        .cta-button {
+            display: block;
+            width: 100%;
+            background-color: var(--lg-magenta);
+            color: white;
+            font-family: 'Noto Sans KR', sans-serif; /* 폰트 변경 */
+            font-weight: 700;
+            font-size: 1.5rem;
+            padding: 18px;
+            border-radius: 15px;
+            text-decoration: none;
+            box-shadow: 0 4px 15px rgba(230, 0, 126, 0.4);
+            transition: transform 0.1s;
+        }
+
+        .cta-button:active {
+            transform: scale(0.98);
+        }
+
+        .cta-sub {
+            margin-top: 15px;
+            font-size: 0.9rem;
+            color: var(--text-gray);
+            background-color: rgba(255,255,255,0.7);
+            padding: 10px;
+            border-radius: 8px;
+        }
+
+        .safety-text {
+            margin-top: 10px;
+            font-size: 0.8rem;
+            color: #888;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 5px;
+        }
+
+        /* --- 네이버 예약 섹션 스타일 --- */
+        .naver-section {
+            padding: 30px 20px;
+            background-color: white;
+            text-align: center;
+            border-top: 1px solid #eee;
+            border-bottom: 1px solid #eee;
+        }
+
+        .naver-container {
+            border: 2px solid #03C75A;
+            border-radius: 15px;
+            padding: 20px;
+            background-color: #f9fbf9;
+        }
+
+        .naver-title {
+            font-family: 'Noto Sans KR', sans-serif;
+            font-weight: 700;
+            font-size: 1.1rem;
+            color: var(--text-dark);
+            margin-bottom: 10px;
+        }
+
+        .naver-desc {
+            font-size: 0.95rem;
+            color: var(--text-gray);
+            margin-bottom: 20px;
+            line-height: 1.4;
+        }
+
+        .naver-button {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 100%;
+            background-color: #03C75A; /* 네이버 그린 */
+            color: white;
+            font-family: 'Noto Sans KR', sans-serif;
+            font-weight: 700;
+            font-size: 1.1rem;
+            padding: 15px;
+            border-radius: 10px;
+            text-decoration: none;
+            box-shadow: 0 4px 10px rgba(3, 199, 90, 0.2);
+            transition: transform 0.1s;
+        }
+
+        .naver-button:active {
+            transform: scale(0.98);
+        }
+        
+        .naver-icon-n {
+            font-weight: 900;
+            margin-right: 8px;
+            font-family: sans-serif;
+            border: 1.5px solid white;
+            width: 24px;
+            height: 24px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 14px;
+        }
+
+        /* --- 푸터 & 지도 --- */
+        .footer {
+            background-color: #333;
+            color: white;
+            padding: 40px 20px;
+            text-align: center;
+        }
+
+        .map-graphic {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin: 20px auto; /* 중앙 정렬로 수정 */
+            padding: 0 10px;
+            position: relative;
+            width: 100%; /* 전체 너비 */
+            max-width: 320px; /* 너무 퍼지지 않게 제한 */
+        }
+
+        .map-line {
+            position: absolute;
+            top: 50%;
+            left: 20px; /* 양옆 여백 조정 */
+            right: 20px;
+            height: 2px;
+            background: #666;
+            z-index: 0;
+            border-top: 2px dashed #999;
+        }
+
+        .map-point {
+            z-index: 1;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 5px;
+        }
+
+        .point-icon {
+            width: 40px;
+            height: 40px;
+            background: white;
+            border-radius: 50%;
+            color: var(--text-dark);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+        }
+
+        .point-icon.uplus {
+            background: var(--lg-magenta);
+            color: white;
+        }
+
+        .map-time {
+            background: var(--primary-yellow);
+            color: var(--text-dark);
+            padding: 5px 10px;
+            border-radius: 10px;
+            font-size: 0.8rem;
+            font-weight: bold;
+            z-index: 1;
+        }
+
+        .contact-box {
+            border: 1px solid #555;
+            padding: 15px;
+            border-radius: 10px;
+            margin-top: 20px;
+        }
+
+        .contact-box a {
+            color: var(--primary-yellow);
+            text-decoration: none;
+            font-weight: bold;
+            font-size: 1.1rem;
+        }
+
+        /* --- 모달 (상담신청 폼) 스타일 --- */
+        .modal-overlay {
+            display: none; /* 기본적으로 숨김 */
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.7);
+            z-index: 1000;
+            justify-content: center;
+            align-items: center;
+            padding: 20px;
+        }
+
+        .modal-content {
+            background-color: white;
+            width: 100%;
+            max-width: 400px;
+            border-radius: 20px;
+            padding: 25px;
+            position: relative;
+            box-shadow: 0 10px 25px rgba(0,0,0,0.2);
+            animation: slideUp 0.3s ease-out;
+        }
+
+        .modal-header {
+            text-align: center;
+            margin-bottom: 20px;
+            border-bottom: 2px solid #f0f0f0;
+            padding-bottom: 10px;
+        }
+
+        .modal-title {
+            font-family: 'Noto Sans KR', sans-serif;
+            font-weight: 700;
+            font-size: 1.3rem;
+            color: var(--text-dark);
+        }
+
+        .close-btn {
+            position: absolute;
+            top: 15px;
+            right: 20px;
+            font-size: 1.5rem;
+            color: #999;
+            cursor: pointer;
+            background: none;
+            border: none;
+        }
+
+        /* 폼 요소 스타일 */
+        .form-group {
+            margin-bottom: 15px;
+        }
+
+        .form-label {
+            display: block;
+            font-family: 'Noto Sans KR', sans-serif;
+            font-weight: 700;
+            font-size: 0.9rem;
+            margin-bottom: 5px;
+            color: #555;
+        }
+
+        .form-input, .form-select, .form-textarea {
+            width: 100%;
+            padding: 12px;
+            border: 1px solid #ddd;
+            border-radius: 10px;
+            font-family: 'Gowun Dodum', sans-serif;
+            font-size: 1rem;
+            transition: border-color 0.3s;
+        }
+
+        .form-input:focus, .form-select:focus, .form-textarea:focus {
+            outline: none;
+            border-color: var(--primary-orange);
+            box-shadow: 0 0 0 3px rgba(255, 140, 0, 0.1);
+        }
+
+        .radio-group {
+            display: flex;
+            gap: 10px;
+            flex-wrap: wrap;
+        }
+
+        .radio-label {
+            display: flex;
+            align-items: center;
+            gap: 5px;
+            cursor: pointer;
+            font-size: 0.95rem;
+        }
+
+        .submit-btn {
+            width: 100%;
+            background-color: var(--lg-magenta);
+            color: white;
+            border: none;
+            padding: 15px;
+            border-radius: 12px;
+            font-family: 'Noto Sans KR', sans-serif;
+            font-weight: 700;
+            font-size: 1.2rem;
+            cursor: pointer;
+            margin-top: 10px;
+        }
+
+        @keyframes slideUp {
+            from { transform: translateY(50px); opacity: 0; }
+            to { transform: translateY(0); opacity: 1; }
+        }
+
+        @keyframes bounce {
+            0%, 20%, 50%, 80%, 100% {transform: translateY(0);}
+            40% {transform: translateY(-10px);}
+            60% {transform: translateY(-5px);}
+        }
+
+        @keyframes pulse {
+            0% { transform: scale(1); }
+            50% { transform: scale(1.05); }
+            100% { transform: scale(1); }
+        }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <!-- 헤로 섹션 -->
+    <header class="hero">
+        <div class="badge">
+            <i class="fa-solid fa-gift"></i> 충전기 교환권 도착!
+        </div>
+        <h1>LG유플러스도<br>현대 한식 뷔페<br>단골입니다</h1>
+        <p>직접 담근 김치처럼 정성껏 준비한<br>유플러스의 선물</p>
+        
+        <div class="audio-bubble" onclick="alert('오늘도 정말 고생 많으셨어요! 맛있는 식사 되세요 ^^')">
+            <i class="fa-solid fa-volume-high" style="color:var(--lg-magenta)"></i>
+            "식사 맛있게 하셨어요? ^^"
+        </div>
+    </header>
+
+    <!-- 도입부 -->
+    <section class="intro">
+        <h2>"배부르게 드셨다면,<br>이제 통신비 다이어트 할 차례!"</h2>
+        <p>현대 한식 뷔페의 정성스러운 밥상처럼<br>꼭 필요한 혜택만 꽉꽉 눌러 담았습니다.</p>
+    </section>
+
+    <!-- 혜택 카드 -->
+    <section class="benefits">
+        <!-- 카드 1 (메인) -->
+        <div class="card main-benefit">
+            <!-- 업로드된 유심 혜택 이미지 적용 -->
+            <img src="usim-benefit.jpg" alt="유심 변경 혜택" style="width: 100%; border-radius: 15px; margin-bottom: 20px; box-shadow: 0 4px 10px rgba(0,0,0,0.1);">
+            
+            <div class="card-icon"><i class="fa-solid fa-sim-card"></i></div>
+            <h3 class="card-title">기기 그대로 유심만 쏙!</h3>
+            <p class="card-text">오늘 8,000원 밥값,<br>통신사 이동으로 <span class="highlight-text">3년 치 벌어가세요!</span></p>
+            <span class="highlight-money">최대 30만원 지원</span>
+        </div>
+
+        <!-- 카드 2 (직장인) -->
+        <div class="card">
+            <!-- 업로드된 직장인 혜택 이미지 적용 -->
+            <img src="worker-benefit.jpg" alt="직장인 혜택 상담" style="width: 100%; border-radius: 15px; margin-bottom: 20px; box-shadow: 0 4px 10px rgba(0,0,0,0.1);">
+
+            <div class="card-icon"><i class="fa-solid fa-briefcase" style="color:var(--lg-magenta)"></i></div>
+            <h3 class="card-title">직장인 / 공무원 특별 우대</h3>
+            <p class="card-text">점심시간 잠깐 상담받고<br>오후 업무 편안~하게 시작하세요.</p>
+            <span class="highlight-money" style="font-size:1.4rem; color:var(--text-dark)">전용 혜택 상담 지원</span>
+        </div>
+
+        <!-- 카드 3 (가족) -->
+        <div class="card">
+            <!-- 업로드된 가족 혜택 이미지 적용 -->
+            <img src="family-benefit.jpg" alt="가족 결합 혜택" style="width: 100%; border-radius: 15px; margin-bottom: 20px; box-shadow: 0 4px 10px rgba(0,0,0,0.1);">
+            
+            <div class="card-icon"><i class="fa-solid fa-users" style="color:#4CAF50"></i></div>
+            <h3 class="card-title">뭉치면 더 커지는 혜택</h3>
+            <p class="card-text">가족 통신 상품 결합 시</p>
+            <span class="highlight-money">최대 230만원 혜택</span>
+        </div>
+    </section>
+
+    <!-- 소셜 프루프 섹션 삭제됨 -->
+
+    <!-- CTA 액션 -->
+    <section class="cta-section">
+        <span class="urgency-badge">🔥 선착순 마감 임박</span>
+        
+        <!-- 기존 a 태그를 button으로 변경하여 모달 오픈 -->
+        <button onclick="openModal()" class="cta-button" style="border:none; cursor:pointer;">
+            문자로 상담 신청하기 <i class="fa-solid fa-paper-plane"></i>
+        </button>
+
+        <div class="cta-sub">
+            <p><strong>잠깐! 이벤트 신청 안 하셔도,</strong><br>영수증만 가져오시면 <span style="color:var(--lg-magenta)">충전기+필름</span> 드려요!</p>
+        </div>
+
+        <div class="safety-text">
+            <i class="fa-solid fa-shield-halved"></i> 스팸 문자는 절대 보내지 않아요! 약속! 🤙
+        </div>
+    </section>
+
+    <!-- 네이버 스마트플레이스 예약 섹션 (추가됨) -->
+    <section class="naver-section">
+        <div class="naver-container">
+            <h3 class="naver-title">⏳ 기다림 없이 바로 상담받으세요!</h3>
+            <p class="naver-desc">
+                네이버 플레이스 예약하고 오시면,<br>
+                대기 없이 <strong>바로 상담 가능</strong>합니다.
+            </p>
+            <a href="https://naver.me/x4FhSH48" target="_blank" class="naver-button">
+                <span class="naver-icon-n">N</span> 네이버 플레이스 예약하기
+            </a>
+            <p style="font-size: 0.75rem; color: #888; margin-top: 10px;">
+                LG유플러스 동성로3가 중앙파출소점
+            </p>
+        </div>
+    </section>
+
+    <!-- 푸터 -->
+    <footer class="footer">
+        <h3 style="font-family:'Noto Sans KR', sans-serif; font-weight:700; margin-bottom:20px;">매장 찾아오시는 길</h3>
+        
+        <div class="map-graphic">
+            <div class="map-line"></div>
+            <div class="map-point">
+                <div class="point-icon"><i class="fa-solid fa-utensils"></i></div>
+                <span style="font-size:0.8rem;">현대식당</span>
+            </div>
+            <div class="map-time">차로 5분! 🚗</div>
+            <div class="map-point">
+                <div class="point-icon uplus">U+</div>
+                <span style="font-size:0.8rem;">중앙파출소점</span>
+            </div>
+        </div>
+
+        <div class="contact-box">
+            <p style="color:#aaa; font-size:0.9rem; margin-bottom:5px;">LG유플러스 담당자 김푸름</p>
+            <a href="tel:010-8111-1203">010-8111-1203</a>
+            <p style="font-size:0.8rem; margin-top:5px; color:#888;">"문자로 무엇이든 물어보세요"</p>
+        </div>
+
+        <p style="margin-top:30px; opacity: 0.7; font-size: 0.9rem;">
+            오늘도 건강하고 맛있는 하루 보내세요! ^^
+        </p>
+    </footer>
+
+    <!-- 상담신청 모달 -->
+    <div id="consultModal" class="modal-overlay">
+        <div class="modal-content">
+            <button class="close-btn" onclick="closeModal()">&times;</button>
+            
+            <div class="modal-header">
+                <h3 class="modal-title">📝 간편 상담 신청</h3>
+                <p style="font-size:0.8rem; color:#888;">입력 후 전송버튼을 꼭 눌러주세요!</p>
+            </div>
+
+            <form id="consultForm" onsubmit="submitForm(event)">
+                <!-- 1. 성명 -->
+                <div class="form-group">
+                    <label class="form-label">성명</label>
+                    <input type="text" id="userName" class="form-input" placeholder="이름을 입력해주세요" required>
+                </div>
+
+                <!-- 2. 연락처 -->
+                <div class="form-group">
+                    <label class="form-label">연락처</label>
+                    <input type="tel" id="userPhone" class="form-input" placeholder="010-0000-0000" required>
+                </div>
+
+                <!-- 3. 통신사 선택 -->
+                <div class="form-group">
+                    <label class="form-label">현재 이용중인 통신사</label>
+                    <select id="userCarrier" class="form-select">
+                        <option value="LG U+">LG U+</option>
+                        <option value="SKT">SKT</option>
+                        <option value="KT">KT</option>
+                        <option value="알뜰폰">알뜰폰</option>
+                        <option value="기타">기타</option>
+                    </select>
+                </div>
+
+                <!-- 4. 상담 방식 -->
+                <div class="form-group">
+                    <label class="form-label">희망 상담 방식</label>
+                    <div class="radio-group">
+                        <label class="radio-label"><input type="radio" name="consultMethod" value="문자" checked> 문자</label>
+                        <label class="radio-label"><input type="radio" name="consultMethod" value="전화"> 전화</label>
+                        <label class="radio-label"><input type="radio" name="consultMethod" value="방문 예약"> 방문 예약</label>
+                    </div>
+                </div>
+
+                <!-- 5. 추가 문의 -->
+                <div class="form-group">
+                    <label class="form-label">추가 문의사항 (선택)</label>
+                    <textarea id="userMessage" class="form-textarea" rows="3" placeholder="궁금하신 점을 적어주세요"></textarea>
+                </div>
+
+                <button type="submit" class="submit-btn">입력 완료 (문자 연결)</button>
+            </form>
+        </div>
+    </div>
+
+</div>
+
+<script>
+    // 모달 제어 함수
+    function openModal() {
+        document.getElementById('consultModal').style.display = 'flex';
+        // 모달 열릴 때 body 스크롤 방지
+        document.body.style.overflow = 'hidden';
+    }
+
+    function closeModal() {
+        document.getElementById('consultModal').style.display = 'none';
+        // 스크롤 복구
+        document.body.style.overflow = 'auto';
+    }
+
+    // 모달 배경 클릭 시 닫기
+    window.onclick = function(event) {
+        const modal = document.getElementById('consultModal');
+        if (event.target == modal) {
+            closeModal();
+        }
+    }
+
+    // 폼 제출 및 문자 앱 연결
+    function submitForm(event) {
+        event.preventDefault(); // 기본 제출 동작 방지
+
+        // 입력값 가져오기
+        const name = document.getElementById('userName').value;
+        const phone = document.getElementById('userPhone').value;
+        const carrier = document.getElementById('userCarrier').value;
+        // 라디오 버튼 값 가져오기
+        const methods = document.getElementsByName('consultMethod');
+        let selectedMethod = '문자';
+        for(const method of methods) {
+            if(method.checked) {
+                selectedMethod = method.value;
+                break;
+            }
+        }
+        const message = document.getElementById('userMessage').value;
+
+        // 문자 본문 구성
+        const smsBody = `[현대식당 이벤트 상담신청]
+성명: ${name}
+연락처: ${phone}
+통신사: ${carrier}
+상담방식: ${selectedMethod}
+문의: ${message}`;
+
+        // 안내 메시지
+        alert('문자 앱으로 연결됩니다.\n화면 상단의 [전송] 버튼을 꼭 눌러주세요!');
+
+        // 문자 앱 실행 (URL Scheme)
+        // 설정된 전화번호: 010-8111-1203
+        // 아이폰/안드로이드 호환성을 위해 ?body= 사용
+        location.href = `sms:010-8111-1203?body=${encodeURIComponent(smsBody)}`;
+        
+        // 모달 닫기
+        closeModal();
+    }
+    
+    // 페이지 로드 시 효과
+    document.addEventListener('DOMContentLoaded', () => {
+        console.log("LG U+ x Hyundai Buffet Event Page Loaded");
+    });
+</script>
+
+</body>
+</html>
